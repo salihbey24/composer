@@ -1,6 +1,6 @@
 <?php
 
-namespace Salih\LaraJson;
+namespace Salih\Composer;
 
 use Illuminate\Support\Facades\File;
 
