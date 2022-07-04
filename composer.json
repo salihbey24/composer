@@ -1,0 +1,19 @@
+{
+    "name": "salihbey24/test-composer",
+    "description": "test1",
+    "autoload": {
+        "psr-4": {
+            "Salih\\TestComposer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Salih Baş",
+            "email": "salih.bas@imgesoft.com.tr"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "license": "MIT"
+}
