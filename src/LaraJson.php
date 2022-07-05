@@ -125,7 +125,7 @@ class LaraJson
             $validator.="'$col' => 'required',";
         }
         $validator.=
-        <<<VALIDATORFOOTER
+            <<<VALIDATORFOOTER
                 ]);
                 if (\$validator->fails()) {
 
@@ -341,7 +341,9 @@ class LaraJson
 
     public static function generateRoutes($name)
     {
-        $routerDir = './routes';
+        $nameSpace = strtolower(str_replace('\\','/',__NAMESPACE__));
+
+        $routerDir =base_path("vendor/$nameSpace/src/routes");
 
         $content =
             <<<ROUTER
@@ -361,10 +363,9 @@ class LaraJson
             File::makeDirectory($routerDir, 0775, true, true);
             File::put("$routerDir/routes.php", "<?php \r\n");
 
-            $nameSpace = strtolower(str_replace('\\','/',__NAMESPACE__));
             $routesContent =
                 <<<ROUTES
-                    require base_path('vendor/{$nameSpace}/routes/routes.php');
+                    require base_path('vendor/$nameSpace/src/routes/routes.php');
                     \r\n
                     ROUTES;
 
