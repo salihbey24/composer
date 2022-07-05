@@ -1,8 +1,8 @@
-## Usage
+## v1.1.0
 
-v1.0.6
+- Static kullanıma alternatif olarak instance yapısı oluşturuldu.
 
-## Credits
+
+## v1.0.6
 
 - deleteStub() fonksiyonu oluşturuldu.
-- 

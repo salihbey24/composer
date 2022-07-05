@@ -2,11 +2,61 @@
 
 namespace Salih\Composer;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
 class LaraJson
 {
-    public static function generateStub()
+    public function __construct()
+    {
+    }
+
+    public function generate(string $filePath)
+    {
+        $fileContent = json_decode(File::get($filePath));
+
+        foreach ($fileContent as $item) {
+
+            $name=$item->name;
+            $forms = $item->forms;
+
+            $fields=reset($forms)->fields;
+
+            Artisan::call("make:model",[
+                'name' => $name,
+            ]);
+
+            Artisan::call("make:migration",[
+                'name' => "create{$name}_table",
+            ]);
+
+            $migrationFile= explode("Created Migration: ",Artisan::output());
+            $migrationFile=trim(end($migrationFile));
+
+            $this->generateStub();
+
+            Artisan::call("make:controller",[
+                '--force' => true,
+                '--resource' => true,
+                '--model'=>$name,
+                'name' => "{$name}Controller",
+                '--type' =>'custom'
+            ]);
+
+            $this->generateMigration($name,$migrationFile,$fields);
+            $this->generateModel($name);
+            $this->generateController($name);
+            $this->generateView($name,$forms);
+
+            $this->generateRoutes($name);
+
+        }
+
+        Artisan::call("migrate");
+        Artisan::call("optimize");
+    }
+
+    private function generateStub()
     {
         $stubsDir = base_path('stubs');
 
@@ -108,7 +158,7 @@ class LaraJson
 
     }
 
-    public static function generateController($name)
+    private function generateController($name)
     {
         $controllerFile = app_path("Http/Controllers/{$name}Controller.php");
         $controllerFunctions = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'];
@@ -206,10 +256,10 @@ class LaraJson
 
         File::put($controllerFile, join("\n", $file));
 
-        LaraJson::deleteStub();
+        $this->deleteStub();
     }
 
-    public static function generateView($name, $forms)
+    private function generateView($name, $forms)
     {
         $viewDir = base_path("resources\\views\\$name");
         foreach ($forms as $form) {
@@ -239,7 +289,7 @@ class LaraJson
 
                 foreach ($form->fields as $field) {
                     $field->validation = $field->validation == 'required' ? ",'required' =>'true'" : '';
-                    $content .= LaraJson::generateInput($field);
+                    $content .= $this->generateInput($field);
 
                 }
 
@@ -271,7 +321,7 @@ class LaraJson
                         HEADER;
                 foreach ($form->fields as $field) {
                     $field->validation = $field->validation == 'required' ? ",'required' =>'true'" : '';
-                    $content .= LaraJson::generateInput($field);
+                    $content .= $this->generateInput($field);
 
                 }
                 $content .=
@@ -293,7 +343,7 @@ class LaraJson
         }
     }
 
-    public static function generateModel($name)
+    private function generateModel($name)
     {
         $modelFile = app_path("Models/{$name}.php");
 
@@ -312,7 +362,7 @@ class LaraJson
         File::put($modelFile, join("\n", $file));
     }
 
-    public static function generateMigration($name, $file, $fields)
+    private function generateMigration($name, $file, $fields)
     {
         $migrateFile = base_path("database/migrations/$file.php");
 
@@ -342,7 +392,7 @@ class LaraJson
 
     }
 
-    public static function generateRoutes($name)
+    private function generateRoutes($name)
     {
         $nameSpace = strtolower(str_replace('\\','/',__NAMESPACE__));
 
@@ -384,7 +434,7 @@ class LaraJson
         return $tableFields[$field->type];
     }
 
-    private static function generateInput($field)
+    private function generateInput($field)
     {
 
         $options='';
@@ -494,7 +544,7 @@ class LaraJson
         return $cols;
     }
 
-    private static function deleteStub()
+    private function deleteStub()
     {
         File::delete(base_path('stubs/controller.custom.stub'));
 

@@ -1,6 +1,6 @@
 ## Usage
 
-Example code:
+Example code for v1.0.x:
 ```php
 $fileContent = json_decode(File::get($request->json->getRealPath()));
 
@@ -43,4 +43,10 @@ $fileContent = json_decode(File::get($request->json->getRealPath()));
 
         Artisan::call("migrate");
         Artisan::call("optimize");
+```
+
+Example code for v1.1.x:
+```php
+$laraJson = new LaraJson();
+$laraJson->generate($request->json->getRealPath());
 ```
