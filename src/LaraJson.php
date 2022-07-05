@@ -18,6 +18,7 @@ class LaraJson
                use {{ namespacedModel }};
                use {{ rootNamespace }}Http\Controllers\Controller;
                use {{ namespacedRequests }}
+               use Salih\Composer\LaraJson;
 
                class {{ class }} extends Controller
                {
@@ -113,7 +114,7 @@ class LaraJson
 
         $file = file($controllerFile, FILE_IGNORE_NEW_LINES);
 
-        $cols = \App\Library\LaraJson::getTableColumns($name);
+        $cols = LaraJson::getTableColumns($name);
 
         $validator =
             <<<VALIDATORHEADER
@@ -149,7 +150,7 @@ class LaraJson
                 'store' =>
                 <<<STORE
                     $validator
-                    \$cols = \App\Library\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data=new $name();
                     foreach(\$request->all() as \$k => \$v)
                         {
@@ -174,7 +175,7 @@ class LaraJson
                 'update' =>
                 <<<UPDATE
                     $validator
-                    \$cols = \App\Library\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data= $name::find(\$id);
                     foreach(\$request->all() as \$k => \$v)
                         {
@@ -235,7 +236,7 @@ class LaraJson
 
                 foreach ($form->fields as $field) {
                     $field->validation = $field->validation == 'required' ? ",'required' =>'true'" : '';
-                    $content .= \App\Library\LaraJson::generateInput($field);
+                    $content .= LaraJson::generateInput($field);
 
                 }
 
@@ -267,7 +268,7 @@ class LaraJson
                         HEADER;
                 foreach ($form->fields as $field) {
                     $field->validation = $field->validation == 'required' ? ",'required' =>'true'" : '';
-                    $content .= \App\Library\LaraJson::generateInput($field);
+                    $content .= LaraJson::generateInput($field);
 
                 }
                 $content .=
@@ -340,7 +341,7 @@ class LaraJson
 
     public static function generateRoutes($name)
     {
-        $routerDir = app_path("Library/routes");
+        $routerDir = './routes';
 
         $content =
             <<<ROUTER
@@ -360,9 +361,10 @@ class LaraJson
             File::makeDirectory($routerDir, 0775, true, true);
             File::put("$routerDir/routes.php", "<?php \r\n");
 
+            $nameSpace = strtolower(str_replace('\\','/',__NAMESPACE__));
             $routesContent =
                 <<<ROUTES
-                    require app_path('Library/routes/routes.php');
+                    require base_path('vendor/{$nameSpace}/routes/routes.php');
                     \r\n
                     ROUTES;
 
@@ -476,7 +478,6 @@ class LaraJson
                 RETURN;
 
     }
-
 
     public static function getTableColumns($model)
     {
