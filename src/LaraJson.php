@@ -8,7 +8,7 @@ class LaraJson
 {
     public static function generateStub()
     {
-        $stubsDir = base_path("stubs");
+        $stubsDir = base_path('stubs');
 
         $content =
             <<<STUB
@@ -105,6 +105,7 @@ class LaraJson
             File::makeDirectory($stubsDir, 0775, true, true);
         }
         File::put("$stubsDir\controller.custom.stub", $content);
+
     }
 
     public static function generateController($name)
@@ -204,6 +205,8 @@ class LaraJson
         }
 
         File::put($controllerFile, join("\n", $file));
+
+        LaraJson::deleteStub();
     }
 
     public static function generateView($name, $forms)
@@ -491,4 +494,13 @@ class LaraJson
         return $cols;
     }
 
+    private static function deleteStub()
+    {
+        File::delete(base_path('stubs/controller.custom.stub'));
+
+        if(File::isEmptyDirectory(base_path('stubs/')))
+        {
+            File::deleteDirectory(base_path('stubs/'));
+        }
+    }
 }
