@@ -53,6 +53,7 @@ class LaraJson
         }
 
         Artisan::call("migrate");
+        Artisan::call("clear-compiled");
         Artisan::call("optimize");
     }
 

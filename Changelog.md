@@ -1,3 +1,9 @@
+## v1.1.2
+
+- Static kullanım kaldırıldı.
+- php artisan salih komutu eklendi
+- Console/...  klasörü test edildi
+
 ## v1.1.1
 
 - Static ve instance kullanımı birlikte sunuldu ileride seçilen ile yola devam edilecek.
