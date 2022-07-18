@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Salih\Composer\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 
-class salih extends Command
+class TestCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -13,17 +17,19 @@ class salih extends Command
      */
     protected $signature = 'salih:install {--path=file : Json file path}';
 
+
     /**
      * The console command description.
      *
      * @var string
      */
+
     protected $description = 'Install required files from json file';
 
     /**
      * Execute the console command.
      *
-     * @return int
+     * @return void
      */
     public function handle()
     {
@@ -37,4 +43,5 @@ class salih extends Command
         }
         return 0;
     }
+
 }
