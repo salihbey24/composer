@@ -14,7 +14,9 @@ class LaraJsonServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function register()
     {
-        //
+        $this->app->bind('App\LaraJson\LaraJsonHelpers', function ($app) {
+            return new LaraJsonHelpers();
+        });
     }
 
     /**
