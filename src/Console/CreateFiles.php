@@ -69,7 +69,7 @@ trait CreateFiles
                 <?php
                 namespace App\LaraJson;
                 
-                class LaraJson
+                class LaraJsonHelpers
                 {
                     public static function getTableColumns(\$model)
                     {
@@ -202,7 +202,7 @@ trait CreateFiles
 
         $file = file($controllerFile, FILE_IGNORE_NEW_LINES);
 
-        $cols = \App\LaraJson::getTableColumns($name);
+        $cols = App\LaraJson\LaraJsonHelpers::getTableColumns($name);
 
         $validator =
             <<<VALIDATORHEADER
@@ -238,7 +238,7 @@ trait CreateFiles
                 'store' =>
                 <<<STORE
                     $validator
-                    \$cols = \App\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data=new $name();
                     foreach(\$request->all() as \$k => \$v)
                         {
@@ -263,7 +263,7 @@ trait CreateFiles
                 'update' =>
                 <<<UPDATE
                     $validator
-                    \$cols = \App\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data= $name::find(\$id);
                     foreach(\$request->all() as \$k => \$v)
                         {
