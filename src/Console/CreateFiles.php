@@ -45,6 +45,7 @@ trait CreateFiles
                 '--type' =>'custom'
             ]);
 
+            $this->generateHelpers();
             $this->generateMigration($name,$migrationFile,$fields);
             $this->generateModel($name);
             $this->generateController($name);
@@ -57,6 +58,39 @@ trait CreateFiles
         Artisan::call("migrate");
         Artisan::call("clear-compiled");
         Artisan::call("optimize");
+    }
+
+    private function generateHelpers()
+    {
+        $helperDir = app_path("LaraJson");
+
+        $content=
+            <<<CONTENT
+                <?php
+                namespace App\LaraJson;
+                
+                class LaraJson
+                {
+                    public static function getTableColumns(\$model)
+                    {
+                        \$cols = \Schema::getColumnListing(app("\App\Models\\\$model")->getTable());
+                        
+                        \$cols = array_diff(\$cols, ['id', 'app', 'string', 'number', 'created_at', 'updated_at']);
+                        
+                        \$cols = array_values(\$cols);
+                        
+                        return \$cols;
+                    }
+                }
+                
+                CONTENT;
+
+        if (!File::exists($helperDir)) {
+            File::makeDirectory($helperDir, 0775, true, true);
+        }
+
+        File::put("$helperDir\\LaraJsonHelpers.php", $content);
+
     }
 
     private function generateStub()
@@ -168,7 +202,7 @@ trait CreateFiles
 
         $file = file($controllerFile, FILE_IGNORE_NEW_LINES);
 
-        $cols = LaraJson::getTableColumns($name);
+        $cols = App\LaraJson::getTableColumns($name);
 
         $validator =
             <<<VALIDATORHEADER
@@ -204,7 +238,7 @@ trait CreateFiles
                 'store' =>
                 <<<STORE
                     $validator
-                    \$cols = LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = App\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data=new $name();
                     foreach(\$request->all() as \$k => \$v)
                         {
@@ -229,7 +263,7 @@ trait CreateFiles
                 'update' =>
                 <<<UPDATE
                     $validator
-                    \$cols = LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                    \$cols = App\LaraJson::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
                     \$data= $name::find(\$id);
                     foreach(\$request->all() as \$k => \$v)
                         {
@@ -534,17 +568,6 @@ trait CreateFiles
                 </div>
                 RETURN;
 
-    }
-
-    public static function getTableColumns($model)
-    {
-        $cols = \Schema::getColumnListing(app("\App\Models\\$model")->getTable());
-
-        $cols = array_diff($cols, ['id', 'app', 'string', 'number', 'created_at', 'updated_at']);
-
-        $cols = array_values($cols);
-
-        return $cols;
     }
 
     private function deleteStub()

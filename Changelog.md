@@ -1,3 +1,8 @@
+## v1.1.8
+
+- App/LaraJson helpers klasörü ve dosyası oluşturuldu
+
+
 ## v1.1.6
 
 - Komut satırı ile kurulum eklendi (php artisan salih:install --path={Json File Path})
