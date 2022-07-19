@@ -1,12 +1,6 @@
 ## Usage
 
-Example code for LaraJsonStatic:
+Example code:
 ```php
-LaraJsonStatic::generate($request->json->getRealPath());
-```
-
-Example code for LaraJson:
-```php
-$laraJson = new LaraJson();
-$laraJson->generate($request->json->getRealPath());
+php artisan salih:install --path={Json File Path}
 ```

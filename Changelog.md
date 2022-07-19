@@ -1,3 +1,21 @@
+## v1.1.6
+
+- Komut satırı ile kurulum eklendi (php artisan salih:install --path={Json File Path})
+
+
+## v1.1.5
+
+-composer.json dosyasına
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Salih\\Composer\\LaraJsonServiceProvider"
+            ]
+        }
+    },
+eklendi.
+
+
 ## v1.1.2
 
 - Static kullanım kaldırıldı.

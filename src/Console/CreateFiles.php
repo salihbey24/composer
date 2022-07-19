@@ -1,17 +1,17 @@
 <?php
 
-namespace Salih\Composer;
+namespace Salih\Composer\Console;
 
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
 
-class LaraJson
+trait CreateFiles
 {
-    public function __construct()
-    {
-    }
-
-    public function generate(string $filePath)
+    /**
+     * Create files.
+     *
+     * @return void
+     */
+    protected function createFiles(string $filePath)
     {
         $fileContent = json_decode(File::get($filePath));
 

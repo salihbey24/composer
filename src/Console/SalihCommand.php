@@ -8,8 +8,9 @@ use Illuminate\Support\Str;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
-class TestCommand extends Command
+class SalihCommand extends Command
 {
+    use CreateFiles;
     /**
      * The name and signature of the console command.
      *
@@ -35,9 +36,9 @@ class TestCommand extends Command
     {
         if ($this->option('path')!='file') {
             echo 'ok';
-            /*
-             $this->>installLaraJson();
-             * */
+
+             $this->createFiles($this->option('path'));
+
         }else {
             echo 'error please select file';
         }
