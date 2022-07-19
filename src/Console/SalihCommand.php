@@ -2,6 +2,8 @@
 
 namespace Salih\Composer\Console;
 
+use Illuminate\Console\Command;
+
 class SalihCommand extends Command
 {
     use CreateFiles;
