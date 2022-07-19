@@ -73,7 +73,7 @@ trait CreateFiles
                 {
                     public static function getTableColumns(\$model)
                     {
-                        \$cols = \Schema::getColumnListing(app("\App\Models\$model")->getTable());
+                        \$cols = \Schema::getColumnListing(app("\App\Models\\\$model")->getTable());
                         
                         \$cols = array_diff(\$cols, ['id', 'app', 'string', 'number', 'created_at', 'updated_at']);
                         
