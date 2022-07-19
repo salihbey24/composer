@@ -3,6 +3,8 @@
 namespace Salih\Composer\Console;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 trait CreateFiles
 {
