@@ -2,12 +2,6 @@
 
 namespace Salih\Composer\Console;
 
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
-
 class SalihCommand extends Command
 {
     use CreateFiles;
@@ -43,6 +37,11 @@ class SalihCommand extends Command
             echo 'error please select file';
         }
         return 0;
+    }
+
+    public function install(string $filePath)
+    {
+        $this->createFiles($filePath);
     }
 
 }

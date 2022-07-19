@@ -2,7 +2,6 @@
 
 namespace Salih\Composer\Console;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
@@ -228,56 +227,56 @@ trait CreateFiles
             $content = match ($function) {
                 'index' =>
                 <<<INDEX
-                    \$items = $name::all();
-                    return view('$name/List')->with(['items' => \$items]);
+                            \$items = $name::all();
+                            return view('$name/List')->with(['items' => \$items]);
                     INDEX,
                 'create' =>
                 <<<CREATE
-                    return view('$name/Create');
+                            return view('$name/Create');
                     CREATE,
                 'store' =>
                 <<<STORE
-                    $validator
-                    \$cols = \App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
-                    \$data=new $name();
-                    foreach(\$request->all() as \$k => \$v)
-                        {
-                            if(in_array(\$k, \$cols)){
-                                \$data->\$k = \$v;
-                            }
-                        }
-                    \$data->save();
-
-                    return redirect("$name/edit/\$data->id")->with(['status'=>'success','text'=>'başarıyla oluşturuldu.']);
+                            $validator
+                            \$cols = \App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                            \$data=new $name();
+                            foreach(\$request->all() as \$k => \$v)
+                                {
+                                    if(in_array(\$k, \$cols)){
+                                        \$data->\$k = \$v;
+                                    }
+                                }
+                            \$data->save();
+                            
+                            return redirect("$name/edit/\$data->id")->with(['status'=>'success','text'=>'başarıyla oluşturuldu.']);
                     STORE,
                 'show' =>
                 <<<SHOW
-                    \$item = $name::find(\$id);
-                    return view('$name/show',['item'=>\$item]);
+                            \$item = $name::find(\$id);
+                            return view('$name/show',['item'=>\$item]);
                     SHOW,
                 'edit' =>
                 <<<EDIT
-                    \$item = $name::find(\$id);
-                    return view('$name/edit',['item'=>\$item]);
+                            \$item = $name::find(\$id);
+                            return view('$name/edit',['item'=>\$item]);
                     EDIT,
                 'update' =>
                 <<<UPDATE
-                    $validator
-                    \$cols = \App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
-                    \$data= $name::find(\$id);
-                    foreach(\$request->all() as \$k => \$v)
-                        {
-                            if(in_array(\$k, \$cols)){
-                                \$data->\$k = \$v;
-                            }
-                        }
-                    \$data->save();
-                    return redirect('$name')->with(['status'=>'success','text'=>'başarıyla güncellendi.']);
+                            $validator
+                            \$cols = \App\LaraJson\LaraJsonHelpers::getTableColumns(basename(str_replace('Controller', '', get_class(\$this))));
+                            \$data= $name::find(\$id);
+                            foreach(\$request->all() as \$k => \$v)
+                                {
+                                    if(in_array(\$k, \$cols)){
+                                        \$data->\$k = \$v;
+                                    }
+                                }
+                            \$data->save();
+                            return redirect('$name')->with(['status'=>'success','text'=>'başarıyla güncellendi.']);
                     UPDATE,
                 'destroy' =>
                 <<<DESTROY
-                    $name::destroy(\$id);
-                    return redirect('$name')->with(['status'=>'success','text'=>'başarıyla silindi.']);
+                            $name::destroy(\$id);
+                            return redirect('$name')->with(['status'=>'success','text'=>'başarıyla silindi.']);
                     DESTROY,
 
             };

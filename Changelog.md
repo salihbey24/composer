@@ -1,3 +1,8 @@
+## v1.1.15
+
+- Hem console hemde instance olarak kurulum seçeneği eklendi.
+
+
 ## v1.1.8
 
 - App/LaraJson helpers klasörü ve dosyası oluşturuldu
