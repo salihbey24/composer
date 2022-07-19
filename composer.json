@@ -15,5 +15,15 @@
     "require": {
         "php": ">=8.0"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Salih\\Composer\\LaraJsonServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
 }
