@@ -32,6 +32,7 @@ class LaraJsonServiceProvider extends ServiceProvider implements DeferrableProvi
 
         $this->commands([
             Console\InstallCommand::class,
+            Console\VersionCommand::class,
         ]);
     }
 

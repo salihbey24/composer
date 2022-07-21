@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 
 class VersionCommand extends Command
 {
-    use CreateFiles;
     /**
      * The name and signature of the console command.
      *
