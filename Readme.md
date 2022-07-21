@@ -1,9 +1,12 @@
 ## Usage
+To get version:
+```php
+php artisan salih:version
+```
 
 Example usage with console:
 ```php
 php artisan salih:install --path={Json File Path}
-php artisan salih --version
 ```
 
 Example usage with instance:

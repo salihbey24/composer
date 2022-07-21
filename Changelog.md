@@ -3,7 +3,6 @@
 - php artisan salih --version   komutu eklendi
 
 
-
 ## v1.1.18
 
 - Routes Laravel Breeze tarzı oluşturuldu.

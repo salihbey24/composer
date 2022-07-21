@@ -11,7 +11,7 @@ class VersionCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'salih {--version : Get version}';
+    protected $signature = 'salih:version';
 
 
     /**
