@@ -31,9 +31,10 @@ class SalihCommand extends Command
     public function handle()
     {
         if ($this->option('path')!='file') {
-            echo 'ok';
 
-             $this->createFiles($this->option('path'));
+            echo 'Installing...';
+
+            $this->createFiles($this->option('path'));
 
         }else {
             echo 'error please select file';

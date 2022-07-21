@@ -430,37 +430,34 @@ trait CreateFiles
 
     private function generateRoutes($name)
     {
-        $nameSpace = strtolower(str_replace('\\','/',__NAMESPACE__));
-
-        $routerDir =base_path("vendor/$nameSpace/src/routes");
-
-        $content =
-            <<<ROUTER
-            Route::controller(\App\Http\Controllers\\{$name}Controller::class)->group(function () {
-
-                Route::get('/$name', 'index');
-                Route::get('/$name/create', 'create');
-                Route::post('/$name/create', 'store');
-                Route::get('/$name/{id}', 'show');
-                Route::get('/$name/edit/{id}', 'edit');
-                Route::post('/$name/edit/{id}', 'update');
-                Route::get('/$name/destroy/{id}', 'destroy');
-            });
-            ROUTER;
+        $routerDir =base_path('routes/laraJson.php');
 
         if (!File::exists($routerDir)) {
-            File::makeDirectory($routerDir, 0775, true, true);
-            File::put("$routerDir/routes.php", "<?php \r\n");
+            File::put($routerDir, "<?php \r\n");
 
             $routesContent =
                 <<<ROUTES
-                    require base_path('vendor/$nameSpace/src/routes/routes.php');
+                    require __DIR__.'/laraJson.php';
                     \r\n
                     ROUTES;
 
             File::append(base_path('routes/web.php'), $routesContent);
         }
-        File::append("$routerDir/routes.php", $content);
+
+        $content =
+            <<<ROUTER
+                Route::controller(\App\Http\Controllers\\{$name}Controller::class)->group(function () { 
+                    Route::get('/$name', 'index');
+                    Route::get('/$name/create', 'create');
+                    Route::post('/$name/create', 'store');
+                    Route::get('/$name/{id}', 'show');
+                    Route::get('/$name/edit/{id}', 'edit');
+                    Route::post('/$name/edit/{id}', 'update');
+                    Route::get('/$name/destroy/{id}', 'destroy');
+                });
+               ROUTER;
+
+        File::append($routerDir, $content);
     }
 
     private function fieldMapping($field)
