@@ -34,7 +34,7 @@ class VersionCommand extends Command
 
     public function version()
     {
-        echo 'v1.1.22';
+        echo 'v1.2.0';
     }
 
 }
