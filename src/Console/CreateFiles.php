@@ -208,10 +208,10 @@ trait CreateFiles
                 \$validator=\Illuminate\Support\Facades\Validator::make(\$request->all(), [
                 VALIDATORHEADER;
 
-        foreach ($cols as $col) {
-            $validator.="'$col' => 'required',";
-        }
-        $validator.=
+                foreach ($cols as $col) {
+                    $validator.="'$col' => 'required',";
+                }
+                $validator.=
             <<<VALIDATORFOOTER
                 ]);
                 if (\$validator->fails()) {
@@ -433,7 +433,14 @@ trait CreateFiles
         $routerDir =base_path('routes/laraJson.php');
 
         if (!File::exists($routerDir)) {
-            File::put($routerDir, "<?php \r\n");
+
+            $content =
+                <<<ROUTER
+                    <?php \r\n
+                    use Illuminate\Support\Facades\Route; \r\n
+                    ROUTER;
+
+            File::put($routerDir, $content);
 
             $routesContent =
                 <<<ROUTES
@@ -454,7 +461,7 @@ trait CreateFiles
                     Route::get('/$name/edit/{id}', 'edit');
                     Route::post('/$name/edit/{id}', 'update');
                     Route::get('/$name/destroy/{id}', 'destroy');
-                });
+                });\r\n
                ROUTER;
 
         File::append($routerDir, $content);

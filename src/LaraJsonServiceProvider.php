@@ -31,7 +31,7 @@ class LaraJsonServiceProvider extends ServiceProvider implements DeferrableProvi
         }
 
         $this->commands([
-            Console\SalihCommand::class,
+            Console\InstallCommand::class,
         ]);
     }
 
@@ -42,6 +42,6 @@ class LaraJsonServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function provides()
     {
-        return [Console\SalihCommand::class];
+        return [Console\InstallCommand::class];
     }
 }

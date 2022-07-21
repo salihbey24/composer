@@ -4,7 +4,7 @@ namespace Salih\Composer\Console;
 
 use Illuminate\Console\Command;
 
-class SalihCommand extends Command
+class InstallCommand extends Command
 {
     use CreateFiles;
     /**
@@ -46,5 +46,4 @@ class SalihCommand extends Command
     {
         $this->createFiles($filePath);
     }
-
 }

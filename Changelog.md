@@ -1,3 +1,14 @@
+## v1.1.19
+
+- php artisan salih --version   komutu eklendi
+
+
+
+## v1.1.18
+
+- Routes Laravel Breeze tarzı oluşturuldu.
+
+
 ## v1.1.15
 
 - Hem console hemde instance olarak kurulum seçeneği eklendi.
